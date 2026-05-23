@@ -114,7 +114,7 @@
 </main>
 
 <script>
-const CSV_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vQqnpUNbEPPITpNm8Eq9Zz9ORVtpMJ22Yq7cTjEK5MBX03GXw1ZE5LfzLDwhrraTMLs6ozvteBwJ9f9/pub?gid=314093360&single=true&output=csv');
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQqnpUNbEPPITpNm8Eq9Zz9ORVtpMJ22Yq7cTjEK5MBX03GXw1ZE5LfzLDwhrraTMLs6ozvteBwJ9f9/pub?gid=314093360&single=true&output=csv';
 
 const TARGETS = {
   'FareHarbor Revenue': 5000,
@@ -158,7 +158,7 @@ function cleanNum(v) {
 
 function buildWeeks(rows) {
   const header = rows[0];
-  const weekLabels = header.slice(2).filter(w => w && w.trim() !== '');
+  const weekLabels = header.slice(2).filter(w => w && w.trim() !== '';
   const weeks = weekLabels.map((label, wi) => {
     const colIdx = wi + 2;
     const w = { label: label.trim() };
@@ -335,15 +335,15 @@ function render(idx) {
 }
 
 function buildTabs() {
-  const nav = document.getElementById('weekTabs');
+  const nav = document.getElementById('weekTabs';
   nav.innerHTML = '';
   allWeeks.forEach((w,i) => {
-    const btn = document.createElement('button');
-    btn.className = 'tab' + (i===allWeeks.length-1?' active':'');
+    const btn = document.createElement('button';
+    btn.className = 'tab' + (i===allWeeks.length-1?' active':'';
     btn.textContent = w.label;
     btn.onclick = () => {
       document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
+      btn.classList.add('active';
       render(i);
     };
     nav.appendChild(btn);
@@ -352,8 +352,16 @@ function buildTabs() {
 
 async function loadData() {
   try {
-    const res = await fetch(CSV_URL);
-    if (!res.ok) throw new Error('Failed to fetch');
+    const proxies = [
+      `https://corsproxy.io/?${encodeURIComponent(CSV_URL)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(CSV_URL)}`,
+      `https://thingproxy.freeboard.io/fetch/${CSV_URL}`
+    ];
+    let res;
+    for (const proxy of proxies) {
+      try { res = await fetch(proxy); if (res && res.ok) break; } catch(e) { res = null; }
+    }
+    if (!res || !res.ok) throw new Error('All proxies failed');
     const text = await res.text();
     const rows = parseCSV(text);
     allWeeks = buildWeeks(rows);
