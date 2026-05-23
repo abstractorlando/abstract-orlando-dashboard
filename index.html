@@ -114,7 +114,7 @@
 </main>
 
 <script>
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQqnpUNbEPPITpNm8Eq9Zz9ORVtpMJ22Yq7cTjEK5MBX03GXw1ZE5LfzLDwhrraTMLs6ozvteBwJ9f9/pub?gid=314093360&single=true&output=csv';
+const CSV_URL = 'https://script.google.com/macros/s/AKfycbyvuyYDOJtUYHcAMZXGgThMAYpzpScyvsCi1yxEpH-ZpwJqaZl3GfoyTVeNIRQ5EI4/exec';
 
 const TARGETS = {
   'FareHarbor Revenue': 5000,
@@ -352,16 +352,8 @@ function buildTabs() {
 
 async function loadData() {
   try {
-    const proxies = [
-      `https://corsproxy.io/?${encodeURIComponent(CSV_URL)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(CSV_URL)}`,
-      `https://thingproxy.freeboard.io/fetch/${CSV_URL}`
-    ];
-    let res;
-    for (const proxy of proxies) {
-      try { res = await fetch(proxy); if (res && res.ok) break; } catch(e) { res = null; }
-    }
-    if (!res || !res.ok) throw new Error('All proxies failed');
+    const res = await fetch(CSV_URL);
+    if (!res.ok) throw new Error('Fetch failed');
     const text = await res.text();
     const rows = parseCSV(text);
     allWeeks = buildWeeks(rows);
