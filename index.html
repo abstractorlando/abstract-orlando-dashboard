@@ -56,7 +56,6 @@
   .guest-pill-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px; }
   .guest-pill-val { font-family:'DM Serif Display',serif; font-size:1.6rem; }
   .progress-wrap { margin-top:0.5rem; }
-  .progress-label { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:4px; }
   .progress-bar { height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden; }
   .progress-fill { height:100%; border-radius:999px; transition:width 0.6s ease; }
   .fill-good{background:linear-gradient(90deg,var(--teal),var(--green));} .fill-bad{background:linear-gradient(90deg,var(--red),#ff6b35);} .fill-warn{background:linear-gradient(90deg,var(--amber),var(--pink));}
@@ -66,8 +65,6 @@
   .payroll-val { font-family:'DM Serif Display',serif; font-size:1.4rem; }
   .fade-in { animation:fadeIn 0.4s ease; }
   @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-  .edit-hint { font-size:11px; color:var(--muted); padding:0.5rem 2rem; border-bottom:1px solid var(--border); background:rgba(255,184,0,0.04); }
-  .edit-hint span { color:var(--amber); }
 </style>
 </head>
 <body>
@@ -78,95 +75,40 @@
   </div>
   <div class="header-right">Updated weekly<br><span style="color:var(--pink);font-size:10px;">abstractorlando.com</span></div>
 </header>
-<div class="edit-hint">💡 <span>To add a new week:</span> edit the DATA section in this file — takes 30 seconds.</div>
 <div class="week-tabs" id="weekTabs"></div>
 <main id="main"></main>
-
 <script>
-// ═══════════════════════════════════════════════
-// ADD NEW WEEKS HERE — just copy a block and fill in numbers
-// null = no data / not applicable
-// ═══════════════════════════════════════════════
-const WEEKS = [
-  {
-    label: "Apr 13–19",
-    fh: 3161.37, toast: 8181.21, total: 11342.58,
-    tips: 1507.01, tipPct: 18.42, gratuity: 510.84,
-    b3g1: 1, addtl: 7, tapas: 0, bday: 2, first50: 0, thankyou: 1,
-    groupon20: 2, grouponLab: null, goldenUsed: 1, goldenIssued: 1,
-    ft: 61, rg: 29, guests: 90, pickups: 40, reviews: 7, payroll: 6874.74
-  },
-  {
-    label: "Apr 20–26",
-    fh: 3566.54, toast: 11323.35, total: 14889.89,
-    tips: 1562.30, tipPct: 13.80, gratuity: 505.26,
-    b3g1: 3, addtl: 8, tapas: 1, bday: 0, first50: 0, thankyou: 0,
-    groupon20: 5, grouponLab: null, goldenUsed: 3, goldenIssued: 2,
-    ft: 111, rg: 32, guests: 143, pickups: 31, reviews: 21, payroll: 7326.92
-  },
-  {
-    label: "Apr 30–May 3",
-    fh: 3394.62, toast: 8355.00, total: 11749.62,
-    tips: 1157.05, tipPct: 13.85, gratuity: 93.60,
-    b3g1: 0, addtl: 12, tapas: 0, bday: 2, first50: 0, thankyou: 2,
-    groupon20: 6, grouponLab: null, goldenUsed: 5, goldenIssued: 2,
-    ft: 65, rg: 28, guests: 93, pickups: 41, reviews: 14, payroll: 7465.05
-  },
-  {
-    label: "May 7–10",
-    fh: 1457.68, toast: 18096.50, total: 19554.18,
-    tips: 2164.05, tipPct: 11.96, gratuity: 278.10,
-    b3g1: 3, addtl: 2, tapas: null, bday: 2, first50: 0, thankyou: 0,
-    groupon20: 6, grouponLab: 0, goldenUsed: 6, goldenIssued: 2,
-    ft: 105, rg: 70, guests: 175, pickups: 27, reviews: 15, payroll: 8837.07
-  },
-  {
-    label: "May 14–17",
-    fh: 4060.91, toast: 10002.74, total: 14063.65,
-    tips: 1323.00, tipPct: 13.23, gratuity: 127.80,
-    b3g1: 0, addtl: 4, tapas: 2, bday: 2, first50: 2, thankyou: 0,
-    groupon20: 1, grouponLab: 0, goldenUsed: 2, goldenIssued: 2,
-    ft: 86, rg: 31, guests: 117, pickups: 51, reviews: 17, payroll: 8679.50
-  }{
-    label: "May 21–24",
-    fh: 3401.87, toast: 10915.83, total: 14317.70,
-    tips: 1600.51, tipPct: 14.66, gratuity: 389.70,
-    b3g1: null, addtl: 7, tapas: 1, bday: 6, first50: 2, thankyou: 0,
-    groupon20: 0, grouponLab: 2, goldenUsed: 3, goldenIssued: 1,
-    ft: 82, rg: 47, guests: 129, pickups: 38, reviews: 41, payroll: 8376.37
-  },
-  // ← PASTE NEW WEEK BLOCKS ABOVE THIS LINE
+var WEEKS = [
+  { label:"Apr 13-19", fh:3161.37, toast:8181.21, total:11342.58, tips:1507.01, tipPct:18.42, gratuity:510.84, b3g1:1, addtl:7, tapas:0, bday:2, first50:0, thankyou:1, groupon20:2, grouponLab:null, goldenUsed:1, goldenIssued:1, ft:61, rg:29, guests:90, pickups:40, reviews:7, payroll:6874.74 },
+  { label:"Apr 20-26", fh:3566.54, toast:11323.35, total:14889.89, tips:1562.30, tipPct:13.80, gratuity:505.26, b3g1:3, addtl:8, tapas:1, bday:0, first50:0, thankyou:0, groupon20:5, grouponLab:null, goldenUsed:3, goldenIssued:2, ft:111, rg:32, guests:143, pickups:31, reviews:21, payroll:7326.92 },
+  { label:"Apr 30-May 3", fh:3394.62, toast:8355.00, total:11749.62, tips:1157.05, tipPct:13.85, gratuity:93.60, b3g1:0, addtl:12, tapas:0, bday:2, first50:0, thankyou:2, groupon20:6, grouponLab:null, goldenUsed:5, goldenIssued:2, ft:65, rg:28, guests:93, pickups:41, reviews:14, payroll:7465.05 },
+  { label:"May 7-10", fh:1457.68, toast:18096.50, total:19554.18, tips:2164.05, tipPct:11.96, gratuity:278.10, b3g1:3, addtl:2, tapas:null, bday:2, first50:0, thankyou:0, groupon20:6, grouponLab:0, goldenUsed:6, goldenIssued:2, ft:105, rg:70, guests:175, pickups:27, reviews:15, payroll:8837.07 },
+  { label:"May 14-17", fh:4060.91, toast:10002.74, total:14063.65, tips:1323.00, tipPct:13.23, gratuity:127.80, b3g1:0, addtl:4, tapas:2, bday:2, first50:2, thankyou:0, groupon20:1, grouponLab:0, goldenUsed:2, goldenIssued:2, ft:86, rg:31, guests:117, pickups:51, reviews:17, payroll:8679.50 },
+  { label:"May 21-24", fh:3401.87, toast:10915.83, total:14317.70, tips:1600.51, tipPct:14.66, gratuity:389.70, b3g1:null, addtl:7, tapas:1, bday:6, first50:2, thankyou:0, groupon20:0, grouponLab:2, goldenUsed:3, goldenIssued:1, ft:82, rg:47, guests:129, pickups:38, reviews:41, payroll:8376.37 }
 ];
 
-// ═══════════════════════════════════════════════
-// TARGETS — edit if goals change
-// ═══════════════════════════════════════════════
-const T = { total:20000, fh:5000, toast:15000, tips:2250, tipPct:15, gratuity:1000, b3g1:10, addtl:20, tapas:30, reviews:20 };
+var T = { total:20000, fh:5000, toast:15000, tips:2250, tipPct:15, gratuity:1000, b3g1:10, addtl:20, tapas:30, reviews:20 };
 
-// ═══════════════════════════════════════════════
-// DASHBOARD ENGINE — no need to edit below
-// ═══════════════════════════════════════════════
-let revenueChart, tipChart;
+var revenueChart, tipChart;
 
-function $c(n) { return n==null?'—':'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function $n(n) { return n==null?'—':n; }
-function pct(a,b) { return b?Math.min(Math.round((a/b)*100),100):0; }
-function cls(v,t) { if(v==null||t==null) return 'neutral'; return v>=t?'good':v>=t*0.8?'warn':'bad'; }
-function fillCls(v,t) { if(v==null||t==null) return 'fill-warn'; return v>=t?'fill-good':v>=t*0.8?'fill-warn':'fill-bad'; }
-function badge(v,t,labels) { if(v==null) return ''; return v>=t?`<span class="kpi-badge badge-good">${labels[0]}</span>`:`<span class="kpi-badge badge-bad">${labels[1](v,t)}</span>`; }
+function fc(n) { return n==null ? '—' : '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fn(n) { return n==null ? '—' : n; }
+function pp(a,b) { return b ? Math.min(Math.round((a/b)*100),100) : 0; }
+function gc(v,t) { if(v==null||t==null) return 'neutral'; return v>=t ? 'good' : v>=t*0.8 ? 'warn' : 'bad'; }
+function gf(v,t) { if(v==null||t==null) return 'fill-warn'; return v>=t ? 'fill-good' : v>=t*0.8 ? 'fill-warn' : 'fill-bad'; }
 
 function destroyCharts() {
-  if(revenueChart){revenueChart.destroy();revenueChart=null;}
-  if(tipChart){tipChart.destroy();tipChart=null;}
+  if(revenueChart){ revenueChart.destroy(); revenueChart=null; }
+  if(tipChart){ tipChart.destroy(); tipChart=null; }
 }
 
 function render(idx) {
   destroyCharts();
-  const w = WEEKS[idx];
-  const margin = (w.total!=null&&w.payroll!=null)?w.total-w.payroll:null;
-  const marginPct = margin!=null&&w.total?((margin/w.total)*100).toFixed(1):null;
+  var w = WEEKS[idx];
+  var margin = (w.total!=null && w.payroll!=null) ? w.total-w.payroll : null;
+  var marginPct = (margin!=null && w.total) ? ((margin/w.total)*100).toFixed(1) : null;
 
-  const promos = [
+  var promos = [
     {name:'B3G1F', val:w.b3g1, target:T.b3g1},
     {name:"Add'l Project", val:w.addtl, target:T.addtl},
     {name:'Tapas Upsell', val:w.tapas, target:T.tapas},
@@ -176,92 +118,69 @@ function render(idx) {
     {name:'Groupon $20', val:w.groupon20, target:null, color:'var(--amber)'},
     {name:'Groupon Labubu', val:w.grouponLab, target:null},
     {name:'Golden Ticket Used', val:w.goldenUsed, target:null, color:'var(--amber)'},
-    {name:'Golden Ticket Issued', val:w.goldenIssued, target:null},
+    {name:'Golden Ticket Issued', val:w.goldenIssued, target:null}
   ];
 
   function pc(p) {
     if(p.color) return p.color;
     if(p.target==null) return 'var(--text)';
     if(p.val==null) return 'var(--muted)';
-    return p.val>=p.target?'var(--green)':'var(--red)';
+    return p.val>=p.target ? 'var(--green)' : 'var(--red)';
   }
 
-  document.getElementById('main').innerHTML = `<div class="fade-in">
-  <div class="kpi-row">
-    <div class="kpi ${cls(w.total,T.total)}">
-      <div class="kpi-label">Total Revenue</div>
-      <div class="kpi-value">${$c(w.total)}</div>
-      <div class="kpi-target">Target ${$c(T.total)} ${w.total>=T.total?'<span class="kpi-badge badge-good">✓ Hit</span>':`<span class="kpi-badge badge-bad">↓ ${$c(T.total-w.total)} short</span>`}</div>
-      <div class="progress-wrap" style="margin-top:10px"><div class="progress-bar"><div class="progress-fill ${fillCls(w.total,T.total)}" style="width:${pct(w.total,T.total)}%"></div></div></div>
-    </div>
-    <div class="kpi neutral">
-      <div class="kpi-label">FareHarbor</div>
-      <div class="kpi-value">${$c(w.fh)}</div>
-      <div class="kpi-target">${w.total&&w.fh?pct(w.fh,w.total)+'% of total':''}</div>
-    </div>
-    <div class="kpi neutral">
-      <div class="kpi-label">Toast (In-Studio)</div>
-      <div class="kpi-value">${$c(w.toast)}</div>
-      <div class="kpi-target">${w.total&&w.toast?pct(w.toast,w.total)+'% of total':''}</div>
-    </div>
-    <div class="kpi ${cls(w.tipPct,T.tipPct)}">
-      <div class="kpi-label">Tip Rate</div>
-      <div class="kpi-value">${w.tipPct!=null?w.tipPct.toFixed(1)+'%':'—'}</div>
-      <div class="kpi-target">Target 15% ${w.tipPct!=null?(w.tipPct>=T.tipPct?'<span class="kpi-badge badge-good">✓ On target</span>':'<span class="kpi-badge badge-warn">↓ Below 15%</span>'):''}</div>
-    </div>
-    <div class="kpi ${cls(w.reviews,T.reviews)}">
-      <div class="kpi-label">Reviews</div>
-      <div class="kpi-value">${$n(w.reviews)}</div>
-      <div class="kpi-target">Target ${T.reviews} ${w.reviews!=null?(w.reviews>=T.reviews?'<span class="kpi-badge badge-good">✓ Met</span>':`<span class="kpi-badge badge-bad">Need ${T.reviews-w.reviews} more</span>`):''}</div>
-      <div class="progress-wrap" style="margin-top:10px"><div class="progress-bar"><div class="progress-fill ${fillCls(w.reviews,T.reviews)}" style="width:${pct(w.reviews,T.reviews)}%"></div></div></div>
-    </div>
-  </div>
-
-  <div class="section-title"><span class="dot dot-pink"></span> Revenue Breakdown</div>
-  <div class="charts-grid">
-    <div class="chart-card"><div class="chart-title">Revenue split</div><div style="position:relative;height:200px"><canvas id="revenueChart" role="img" aria-label="Revenue split">FH:${$c(w.fh)} Toast:${$c(w.toast)}</canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Tips & gratuity</div><div style="position:relative;height:200px"><canvas id="tipChart" role="img" aria-label="Tips and gratuity">Tips:${$c(w.tips)} Gratuity:${$c(w.gratuity)}</canvas></div></div>
-  </div>
-
-  <div class="section-title"><span class="dot dot-teal"></span> Guests</div>
-  <div class="guest-row">
-    <div class="guest-pill"><div class="guest-pill-label">First Time</div><div class="guest-pill-val" style="color:var(--pink)">${$n(w.ft)}</div></div>
-    <div class="guest-pill"><div class="guest-pill-label">Returning</div><div class="guest-pill-val" style="color:var(--teal)">${$n(w.rg)}</div></div>
-    <div class="guest-pill"><div class="guest-pill-label">Total Guests</div><div class="guest-pill-val">${$n(w.guests)}</div></div>
-    <div class="guest-pill"><div class="guest-pill-label">Pickups</div><div class="guest-pill-val" style="color:var(--purple)">${$n(w.pickups)}</div></div>
-  </div>
-
-  <div class="section-title"><span class="dot dot-purple"></span> Promotions</div>
-  <div class="promo-grid">
-    ${promos.map(p=>`<div class="promo-card"><div class="promo-name">${p.name}</div><div class="promo-val" style="color:${pc(p)}">${$n(p.val)}</div><div class="promo-target">${p.target!=null?'Target '+p.target:''}</div></div>`).join('')}
-  </div>
-
-  <div class="section-title"><span class="dot dot-pink"></span> Payroll & Margin</div>
-  <div class="payroll-row">
-    <div class="payroll-card"><div class="payroll-label">Payroll</div><div class="payroll-val" style="color:var(--red)">${$c(w.payroll)}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${w.total&&w.payroll?pct(w.payroll,w.total)+'% of revenue':''}</div></div>
-    <div class="payroll-card"><div class="payroll-label">Gross Margin</div><div class="payroll-val" style="color:${margin!=null&&margin>0?'var(--green)':'var(--red)'}">${$c(margin)}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${marginPct?marginPct+'% margin':''}</div></div>
-    <div class="payroll-card"><div class="payroll-label">Tips + Gratuity</div><div class="payroll-val" style="color:var(--teal)">${w.tips!=null&&w.gratuity!=null?$c(w.tips+w.gratuity):$c(w.tips)}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${w.gratuity!=null?$c(w.gratuity)+' gratuity':''}</div></div>
-  </div>
-  </div>`;
-
-  if(w.fh!=null&&w.toast!=null) {
-    revenueChart = new Chart(document.getElementById('revenueChart'),{type:'doughnut',data:{labels:['FareHarbor','Toast'],datasets:[{data:[w.fh,w.toast],backgroundColor:['#FF1D8E','#00A9B5'],borderColor:'#18181d',borderWidth:3,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' $'+ctx.parsed.toLocaleString('en-US',{minimumFractionDigits:2})}}}}});
+  var promoHTML = '';
+  for(var i=0;i<promos.length;i++){
+    var p=promos[i];
+    promoHTML += '<div class="promo-card"><div class="promo-name">'+p.name+'</div><div class="promo-val" style="color:'+pc(p)+'">'+fn(p.val)+'</div><div class="promo-target">'+(p.target!=null?'Target '+p.target:'')+'</div></div>';
   }
-  if(w.tips!=null||w.gratuity!=null) {
-    tipChart = new Chart(document.getElementById('tipChart'),{type:'bar',data:{labels:['Tips','Gratuity'],datasets:[{data:[w.tips||0,w.gratuity||0],backgroundColor:['rgba(255,29,142,0.7)','rgba(91,63,166,0.7)'],borderColor:['#FF1D8E','#5B3FA6'],borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' $'+ctx.parsed.y.toLocaleString('en-US',{minimumFractionDigits:2})}}},scales:{x:{ticks:{color:'#888',font:{size:11}},grid:{display:false}},y:{ticks:{color:'#888',font:{size:11},callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.04)'}}}}});
+
+  var revBadge = w.total>=T.total ? '<span class="kpi-badge badge-good">&#10003; Hit</span>' : '<span class="kpi-badge badge-bad">&#8595; $'+Math.round(T.total-w.total).toLocaleString()+' short</span>';
+  var tipBadge = w.tipPct!=null ? (w.tipPct>=T.tipPct ? '<span class="kpi-badge badge-good">&#10003; On target</span>' : '<span class="kpi-badge badge-warn">&#8595; Below 15%</span>') : '';
+  var revBadge2 = w.reviews!=null ? (w.reviews>=T.reviews ? '<span class="kpi-badge badge-good">&#10003; Met</span>' : '<span class="kpi-badge badge-bad">Need '+(T.reviews-w.reviews)+' more</span>') : '';
+
+  document.getElementById('main').innerHTML = '<div class="fade-in">'
+    +'<div class="kpi-row">'
+    +'<div class="kpi '+gc(w.total,T.total)+'"><div class="kpi-label">Total Revenue</div><div class="kpi-value">'+fc(w.total)+'</div><div class="kpi-target">Target '+fc(T.total)+' '+revBadge+'</div><div class="progress-wrap"><div class="progress-bar"><div class="progress-fill '+gf(w.total,T.total)+'" style="width:'+pp(w.total,T.total)+'%"></div></div></div></div>'
+    +'<div class="kpi neutral"><div class="kpi-label">FareHarbor</div><div class="kpi-value">'+fc(w.fh)+'</div><div class="kpi-target">'+(w.total&&w.fh?pp(w.fh,w.total)+'% of total':'')+'</div></div>'
+    +'<div class="kpi neutral"><div class="kpi-label">Toast (In-Studio)</div><div class="kpi-value">'+fc(w.toast)+'</div><div class="kpi-target">'+(w.total&&w.toast?pp(w.toast,w.total)+'% of total':'')+'</div></div>'
+    +'<div class="kpi '+gc(w.tipPct,T.tipPct)+'"><div class="kpi-label">Tip Rate</div><div class="kpi-value">'+(w.tipPct!=null?w.tipPct.toFixed(1)+'%':'—')+'</div><div class="kpi-target">Target 15% '+tipBadge+'</div></div>'
+    +'<div class="kpi '+gc(w.reviews,T.reviews)+'"><div class="kpi-label">Reviews</div><div class="kpi-value">'+fn(w.reviews)+'</div><div class="kpi-target">Target '+T.reviews+' '+revBadge2+'</div><div class="progress-wrap"><div class="progress-bar"><div class="progress-fill '+gf(w.reviews,T.reviews)+'" style="width:'+pp(w.reviews,T.reviews)+'%"></div></div></div></div>'
+    +'</div>'
+    +'<div class="section-title"><span class="dot dot-pink"></span> Revenue Breakdown</div>'
+    +'<div class="charts-grid"><div class="chart-card"><div class="chart-title">Revenue split</div><div style="position:relative;height:200px"><canvas id="revenueChart"></canvas></div></div><div class="chart-card"><div class="chart-title">Tips & gratuity</div><div style="position:relative;height:200px"><canvas id="tipChart"></canvas></div></div></div>'
+    +'<div class="section-title"><span class="dot dot-teal"></span> Guests</div>'
+    +'<div class="guest-row"><div class="guest-pill"><div class="guest-pill-label">First Time</div><div class="guest-pill-val" style="color:var(--pink)">'+fn(w.ft)+'</div></div><div class="guest-pill"><div class="guest-pill-label">Returning</div><div class="guest-pill-val" style="color:var(--teal)">'+fn(w.rg)+'</div></div><div class="guest-pill"><div class="guest-pill-label">Total Guests</div><div class="guest-pill-val">'+fn(w.guests)+'</div></div><div class="guest-pill"><div class="guest-pill-label">Pickups</div><div class="guest-pill-val" style="color:var(--purple)">'+fn(w.pickups)+'</div></div></div>'
+    +'<div class="section-title"><span class="dot dot-purple"></span> Promotions</div>'
+    +'<div class="promo-grid">'+promoHTML+'</div>'
+    +'<div class="section-title"><span class="dot dot-pink"></span> Payroll & Margin</div>'
+    +'<div class="payroll-row"><div class="payroll-card"><div class="payroll-label">Payroll</div><div class="payroll-val" style="color:var(--red)">'+fc(w.payroll)+'</div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+(w.total&&w.payroll?pp(w.payroll,w.total)+'% of revenue':'')+'</div></div><div class="payroll-card"><div class="payroll-label">Gross Margin</div><div class="payroll-val" style="color:'+(margin!=null&&margin>0?'var(--green)':'var(--red)')+'">'+fc(margin)+'</div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+(marginPct?marginPct+'% margin':'')+'</div></div><div class="payroll-card"><div class="payroll-label">Tips + Gratuity</div><div class="payroll-val" style="color:var(--teal)">'+(w.tips!=null&&w.gratuity!=null?fc(w.tips+w.gratuity):fc(w.tips))+'</div><div style="font-size:11px;color:var(--muted);margin-top:4px">'+(w.gratuity!=null?fc(w.gratuity)+' gratuity':'')+'</div></div></div>'
+    +'</div>';
+
+  if(w.fh!=null && w.toast!=null){
+    revenueChart = new Chart(document.getElementById('revenueChart'),{type:'doughnut',data:{labels:['FareHarbor','Toast'],datasets:[{data:[w.fh,w.toast],backgroundColor:['#FF1D8E','#00A9B5'],borderColor:'#18181d',borderWidth:3,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' $'+ctx.parsed.toLocaleString('en-US',{minimumFractionDigits:2});}}}}}});
+  }
+  if(w.tips!=null || w.gratuity!=null){
+    tipChart = new Chart(document.getElementById('tipChart'),{type:'bar',data:{labels:['Tips','Gratuity'],datasets:[{data:[w.tips||0,w.gratuity||0],backgroundColor:['rgba(255,29,142,0.7)','rgba(91,63,166,0.7)'],borderColor:['#FF1D8E','#5B3FA6'],borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' $'+ctx.parsed.y.toLocaleString('en-US',{minimumFractionDigits:2});}}}},scales:{x:{ticks:{color:'#888',font:{size:11}},grid:{display:false}},y:{ticks:{color:'#888',font:{size:11},callback:function(v){return '$'+v.toLocaleString();}},grid:{color:'rgba(255,255,255,0.04)'}}}}});
   }
 }
 
 function buildTabs() {
-  const nav = document.getElementById('weekTabs');
+  var nav = document.getElementById('weekTabs');
   nav.innerHTML = '';
-  WEEKS.forEach((w,i) => {
-    const btn = document.createElement('button');
-    btn.className = 'tab'+(i===WEEKS.length-1?' active':'');
-    btn.textContent = w.label;
-    btn.onclick = () => { document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(i); };
-    nav.appendChild(btn);
-  });
+  for(var i=0;i<WEEKS.length;i++){
+    (function(idx){
+      var btn = document.createElement('button');
+      btn.className = 'tab' + (idx===WEEKS.length-1?' active':'');
+      btn.textContent = WEEKS[idx].label;
+      btn.onclick = function(){
+        var tabs = document.querySelectorAll('.tab');
+        for(var j=0;j<tabs.length;j++) tabs[j].classList.remove('active');
+        btn.classList.add('active');
+        render(idx);
+      };
+      nav.appendChild(btn);
+    })(i);
+  }
 }
 
 buildTabs();
