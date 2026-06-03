@@ -79,12 +79,13 @@
 <main id="main"></main>
 <script>
 var WEEKS = [
-  { label:"Apr 13-19", fh:3161.37, toast:8181.21, total:11342.58, tips:1507.01, tipPct:18.42, gratuity:510.84, b3g1:1, addtl:7, tapas:0, bday:2, first50:0, thankyou:1, groupon20:2, grouponLab:null, goldenUsed:1, goldenIssued:1, ft:61, rg:29, guests:90, pickups:40, reviews:7, payroll:6874.74 },
-  { label:"Apr 20-26", fh:3566.54, toast:11323.35, total:14889.89, tips:1562.30, tipPct:13.80, gratuity:505.26, b3g1:3, addtl:8, tapas:1, bday:0, first50:0, thankyou:0, groupon20:5, grouponLab:null, goldenUsed:3, goldenIssued:2, ft:111, rg:32, guests:143, pickups:31, reviews:21, payroll:7326.92 },
-  { label:"Apr 30-May 3", fh:3394.62, toast:8355.00, total:11749.62, tips:1157.05, tipPct:13.85, gratuity:93.60, b3g1:0, addtl:12, tapas:0, bday:2, first50:0, thankyou:2, groupon20:6, grouponLab:null, goldenUsed:5, goldenIssued:2, ft:65, rg:28, guests:93, pickups:41, reviews:14, payroll:7465.05 },
-  { label:"May 7-10", fh:1457.68, toast:18096.50, total:19554.18, tips:2164.05, tipPct:11.96, gratuity:278.10, b3g1:3, addtl:2, tapas:null, bday:2, first50:0, thankyou:0, groupon20:6, grouponLab:0, goldenUsed:6, goldenIssued:2, ft:105, rg:70, guests:175, pickups:27, reviews:15, payroll:8837.07 },
-  { label:"May 14-17", fh:4060.91, toast:10002.74, total:14063.65, tips:1323.00, tipPct:13.23, gratuity:127.80, b3g1:0, addtl:4, tapas:2, bday:2, first50:2, thankyou:0, groupon20:1, grouponLab:0, goldenUsed:2, goldenIssued:2, ft:86, rg:31, guests:117, pickups:51, reviews:17, payroll:8679.50 },
-  { label:"May 21-24", fh:3401.87, toast:10915.83, total:14317.70, tips:1600.51, tipPct:14.66, gratuity:389.70, b3g1:null, addtl:7, tapas:1, bday:6, first50:2, thankyou:0, groupon20:0, grouponLab:2, goldenUsed:3, goldenIssued:1, ft:82, rg:47, guests:129, pickups:38, reviews:41, payroll:8376.37 }
+  { label:"Apr 13-19", fh:3161.37, toast:8181.21, total:11342.58, tips:1507.01, tipPct:18.42, gratuity:510.84, b3g1:1, addtl:7, tapas:0, bday:2, first50:0, datenight:null, thankyou:1, groupon20:2, grouponLab:null, goldenUsed:1, goldenIssued:1, ft:61, rg:29, guests:90, pickups:40, reviews:7, payroll:6874.74 },
+  { label:"Apr 20-26", fh:3566.54, toast:11323.35, total:14889.89, tips:1562.30, tipPct:13.80, gratuity:505.26, b3g1:3, addtl:8, tapas:1, bday:0, first50:0, datenight:null, thankyou:0, groupon20:5, grouponLab:null, goldenUsed:3, goldenIssued:2, ft:111, rg:32, guests:143, pickups:31, reviews:21, payroll:7326.92 },
+  { label:"Apr 30-May 3", fh:3394.62, toast:8355.00, total:11749.62, tips:1157.05, tipPct:13.85, gratuity:93.60, b3g1:0, addtl:12, tapas:0, bday:2, first50:0, datenight:null, thankyou:2, groupon20:6, grouponLab:null, goldenUsed:5, goldenIssued:2, ft:65, rg:28, guests:93, pickups:41, reviews:14, payroll:7465.05 },
+  { label:"May 7-10", fh:1457.68, toast:18096.50, total:19554.18, tips:2164.05, tipPct:11.96, gratuity:278.10, b3g1:3, addtl:2, tapas:null, bday:2, first50:0, datenight:null, thankyou:0, groupon20:6, grouponLab:0, goldenUsed:6, goldenIssued:2, ft:105, rg:70, guests:175, pickups:27, reviews:15, payroll:8837.07 },
+  { label:"May 14-17", fh:4060.91, toast:10002.74, total:14063.65, tips:1323.00, tipPct:13.23, gratuity:127.80, b3g1:0, addtl:4, tapas:2, bday:2, first50:2, datenight:null, thankyou:0, groupon20:1, grouponLab:0, goldenUsed:2, goldenIssued:2, ft:86, rg:31, guests:117, pickups:51, reviews:17, payroll:8679.50 },
+  { label:"May 21-24", fh:3401.87, toast:10915.83, total:14317.70, tips:1600.51, tipPct:14.66, gratuity:389.70, b3g1:null, addtl:7, tapas:1, bday:6, first50:2, datenight:1, thankyou:0, groupon20:0, grouponLab:2, goldenUsed:3, goldenIssued:1, ft:82, rg:47, guests:129, pickups:38, reviews:41, payroll:8376.37 },
+  { label:"May 28-31", fh:3474.34, toast:14149.51, total:17623.85, tips:1321.84, tipPct:9.34, gratuity:826.20, b3g1:null, addtl:6, tapas:4, bday:7, first50:12, datenight:3, thankyou:0, groupon20:7, grouponLab:0, goldenUsed:0, goldenIssued:2, ft:124, rg:34, guests:158, pickups:null, reviews:29, payroll:9724.42 }
 ];
 
 var T = { total:20000, fh:5000, toast:15000, tips:2250, tipPct:15, gratuity:1000, b3g1:10, addtl:20, tapas:30, reviews:20 };
@@ -114,6 +115,7 @@ function render(idx) {
     {name:'Tapas Upsell', val:w.tapas, target:T.tapas},
     {name:'BDAYGIFT', val:w.bday, target:null, color:'var(--pink)'},
     {name:'FIRST50', val:w.first50, target:null, color:'var(--teal)'},
+    {name:'DATE NIGHT', val:w.datenight, target:null, color:'var(--purple)'},
     {name:'Thank You', val:w.thankyou, target:null},
     {name:'Groupon $20', val:w.groupon20, target:null, color:'var(--amber)'},
     {name:'Groupon Labubu', val:w.grouponLab, target:null},
@@ -170,7 +172,7 @@ function buildTabs() {
   for(var i=0;i<WEEKS.length;i++){
     (function(idx){
       var btn = document.createElement('button');
-      btn.className = 'tab' + (idx===WEEKS.length-1?' active':'');
+      btn.className = 'tab'+(idx===WEEKS.length-1?' active':'');
       btn.textContent = WEEKS[idx].label;
       btn.onclick = function(){
         var tabs = document.querySelectorAll('.tab');
